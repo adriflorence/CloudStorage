@@ -52,6 +52,13 @@ public class HomeController {
         return getHomePage(authentication, model);
     }
 
+    @PostMapping("/notes/delete/{noteId}")
+    public String deleteNote(Authentication authentication, @PathVariable Integer noteId, Model model){
+        noteService.deleteNote(noteId);
+
+        return getHomePage(authentication, model);
+    }
+
     @PostMapping("/files")
     public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model){
         String username = (String) authentication.getPrincipal();

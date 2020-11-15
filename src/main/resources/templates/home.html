@@ -89,7 +89,11 @@
                                     <tr th:each="note : ${notes}">
                                         <td>
                                             <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <form th:action="@{'/notes/delete/' + ${note.getNoteId()}}" method="post">
+                                                <button class="btn btn-danger" type="submit">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         </td>
                                         <th scope="row" th:text="${note.noteTitle}"></th>
                                         <td th:text="${note.noteDescription}"></td>
