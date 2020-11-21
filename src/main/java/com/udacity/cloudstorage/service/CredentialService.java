@@ -5,15 +5,19 @@ import com.udacity.cloudstorage.model.Credential;
 import com.udacity.cloudstorage.model.User;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
 @Service
 public class CredentialService {
 
     private final CredentialMapper credentialMapper;
+    private final EncryptionService encryptionService;
 
-    public CredentialService(CredentialMapper credentialMapper) {
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
+        this.encryptionService = encryptionService;
     }
 
     public List<Credential> getCredentialsByUserId(Integer userId) {
@@ -22,15 +26,25 @@ public class CredentialService {
 
 
     public int addCredentials(User user, Credential credential) {
+        String encryptedPassword = getEncryptedPassword(credential);
+
         return credentialMapper.insert(
-                new Credential(
-                        null,
-                        credential.getUrl(),
-                        user.getUserName(),
-                        credential.getKey(),
-                        credential.getPassword(),
-                        user.getUserId()
-                )
+            new Credential(
+                null,
+                credential.getUrl(),
+                user.getUserName(),
+                credential.getKey(),
+                encryptedPassword,
+                user.getUserId()
+            )
         );
+    }
+
+    private String getEncryptedPassword(Credential credential){
+        SecureRandom random = new SecureRandom();
+        byte[] key = new byte[16];
+        random.nextBytes(key);
+        String encodedKey =  Base64.getEncoder().encodeToString(key);
+        return encryptionService.encryptValue(credential.getPassword(), encodedKey);
     }
 }
