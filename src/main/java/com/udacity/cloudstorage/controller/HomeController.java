@@ -74,4 +74,13 @@ public class HomeController {
 
         return getHomePage(authentication, model);
     }
+
+    @PostMapping("/credentials")
+    public String saveCredentials(Authentication authentication, @ModelAttribute("newCredentials") Credential credential, Model model) {
+        String username = (String) authentication.getPrincipal();
+        User user = this.userService.getUser(username);
+        this.credentialService.addCredentials(user, credential);
+
+        return getHomePage(authentication, model);
+    }
 }
