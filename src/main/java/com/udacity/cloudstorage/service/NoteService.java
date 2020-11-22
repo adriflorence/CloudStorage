@@ -29,4 +29,12 @@ public class NoteService {
             )
         );
     }
+
+    public void deleteNote(Integer nodeId){
+        noteMapper.delete(nodeId);
+    }
+
+    public int updateNote(User user, Note note) {
+        return noteMapper.update(note);
+    }
 }

@@ -45,7 +45,11 @@ public class HomeController {
     public String saveNote(Authentication authentication, @ModelAttribute("newNote") Note note, Model model){
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
-        this.noteService.addNote(user, note);
+        if(note.getNoteId() == null) {
+            this.noteService.addNote(user, note);
+        } else {
+            this.noteService.updateNote(user, note);
+        }
         note.setNoteDescription("");
         note.setNoteTitle("");
 
