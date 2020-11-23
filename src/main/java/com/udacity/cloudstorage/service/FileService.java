@@ -22,6 +22,10 @@ public class FileService {
         return fileMapper.getFilesByUserId(userId);
     }
 
+    public File getFileById(Integer fileId) {
+        return fileMapper.getFileById(fileId);
+    }
+
     public int addFile(User user, MultipartFile file) {
 
         try {

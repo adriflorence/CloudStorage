@@ -1,17 +1,25 @@
 package com.udacity.cloudstorage.controller;
 
 import com.udacity.cloudstorage.model.Credential;
+import com.udacity.cloudstorage.model.File;
 import com.udacity.cloudstorage.model.Note;
 import com.udacity.cloudstorage.model.User;
 import com.udacity.cloudstorage.service.CredentialService;
 import com.udacity.cloudstorage.service.FileService;
 import com.udacity.cloudstorage.service.NoteService;
 import com.udacity.cloudstorage.service.UserService;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class HomeController {
@@ -77,6 +85,22 @@ public class HomeController {
         fileService.deleteFile(fileId);
 
         return getHomePage(authentication, model);
+    }
+
+    @GetMapping("/download/{fileId}")
+    public ResponseEntity<Resource> download(@PathVariable("fileId") Integer fileId) throws IOException {
+        File file = fileService.getFileById(fileId);
+        ByteArrayResource resource = new ByteArrayResource(file.getFileData());
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFileName());
+        header.add("Expires", "0");
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(Integer.valueOf(file.getFileSize()))
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
     @PostMapping("/credentials")
