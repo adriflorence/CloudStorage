@@ -17,8 +17,8 @@
                     <span>Incorrect password or username.</span>
                 </div>
                 <div class="form-group">
-                    <label for="inputUsername">Username</label>
-                    <input id="inputUsername"
+                    <label for="inputUserName">Username</label>
+                    <input id="inputUserName"
                            th:field="*{userName}"
                            type="input"
                            class="form-control"
@@ -36,7 +36,7 @@
                            placeholder="Enter Password"
                            maxlength="20" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button id="submitLogin" type="submit" class="btn btn-primary">Login</button>
             </form>
 
             <div class="form-group" style="margin-top: 0.5em;">
