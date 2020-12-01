@@ -5,6 +5,8 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -51,24 +53,34 @@ class CloudStorageApplicationTests {
 	 * 	logs out, and verifies that the home page is no longer accessible.
 	 */
 	@Test
-	public void newUserSignup() {
-		driver.get("http://localhost:" + this.port + "/signup");
+	public void newUserSignupAndLogin() {
+		signUp(driver);
+		login(driver);
 
-		// Type in first name, last name, user name and password for sign up and submit
+		// check if Home page available
+		Assertions.assertEquals("Home", driver.getTitle());
+	}
+
+	/**
+	 * navigate to signup page, type in credentials and submit
+	 */
+	public void signUp(WebDriver driver) {
+		driver.get("http://localhost:" + this.port + "/signup");
 		driver.findElement(By.id("inputFirstName")).sendKeys("a");
 		driver.findElement(By.id("inputLastName")).sendKeys("a");
 		driver.findElement(By.id("inputUserName")).sendKeys("a");
 		driver.findElement(By.id("inputPassword")).sendKeys("a");
 		driver.findElement(By.id("signupSubmit")).click();
+	}
 
-		// navigate to login page,  type in credentials and submit
+	/**
+	 * navigate to login page, type in credentials and submit
+	 */
+	public void login(WebDriver driver) {
 		driver.get("http://localhost:" + this.port + "/login");
 		driver.findElement(By.id("inputUserName")).sendKeys("a");
 		driver.findElement(By.id("inputPassword")).sendKeys("a");
 		driver.findElement(By.id("submitLogin")).click();
-
-		// check if Home page available
-		Assertions.assertEquals("Home", driver.getTitle());
 	}
 
 }
