@@ -83,4 +83,22 @@ class CloudStorageApplicationTests {
 		driver.findElement(By.id("submitLogin")).click();
 	}
 
+	/**
+	 * Source: https://www.guru99.com/xpath-selenium.html
+	 */
+	@Test
+	public void createNote() {
+		login(driver);
+
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+
+		// navigate to new note
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-notes-tab")))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-note")))).click();
+
+		// save new note
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-title")))).sendKeys("Note Title");
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-description")))).sendKeys("Note Description");
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-note")))).click();
+	}
 }
