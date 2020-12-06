@@ -118,4 +118,23 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-password")))).sendKeys("password1234");
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-credential")))).click();
 	}
+
+	@Test
+	public void deleteCredentials() {
+		login(driver);
+
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+
+		// navigate to new credential
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-credentials-tab")))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-credential")))).click();
+
+		// save new credential
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-url")))).sendKeys("www.example.com");
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-username")))).sendKeys("admin");
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-password")))).sendKeys("password1234");
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-credential")))).click();
+
+
+	}
 }
