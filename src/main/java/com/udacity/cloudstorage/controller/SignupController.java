@@ -20,7 +20,7 @@ public class SignupController {
     }
 
     @GetMapping
-    public String getSignupPage(@ModelAttribute("user") User user, Model model){
+    public String getSignupPage(@ModelAttribute("user") User user){
         return "signup";
     }
 
