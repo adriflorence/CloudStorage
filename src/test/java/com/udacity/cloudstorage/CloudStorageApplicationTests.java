@@ -3,12 +3,16 @@ package com.udacity.cloudstorage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
@@ -90,10 +94,12 @@ class CloudStorageApplicationTests {
 	public void createNote() {
 		login(driver);
 
-		WebDriverWait wait = new WebDriverWait(driver, 3);
+		WebDriverWait wait = new WebDriverWait(driver, 4);
 
 		// navigate to new note
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-notes-tab")))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-notes-tab"))));
+		WebElement nextNoteTab = driver.findElement(By.id("nav-notes-tab"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", nextNoteTab );
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-note")))).click();
 
 		// save new note
