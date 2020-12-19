@@ -106,6 +106,17 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-title")))).sendKeys("Note Title");
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-description")))).sendKeys("Note Description");
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-note")))).click();
+
+		// get each note = table row
+		WebElement noteTable = driver.findElement(By.id("note-table"));
+		List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
+		WebElement lastRow = tableRows.get(tableRows.size() - 1);
+		List<WebElement> dataCells = lastRow.findElements(By.tagName("td"));
+		String NoteTitle = dataCells.get(1).getAttribute("innerHTML");
+		String NoteDescription = dataCells.get(2).getAttribute("innerHTML");
+
+		Assertions.assertEquals("Note Title", NoteTitle);
+		Assertions.assertEquals("Note Description", NoteDescription);
 	}
 
 	@Test
