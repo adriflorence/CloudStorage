@@ -70,11 +70,12 @@ class CloudStorageApplicationTests {
 	 */
 	public void signUp(WebDriver driver) {
 		driver.get("http://localhost:" + this.port + "/signup");
-		driver.findElement(By.id("inputFirstName")).sendKeys("a");
-		driver.findElement(By.id("inputLastName")).sendKeys("a");
-		driver.findElement(By.id("inputUserName")).sendKeys("a");
-		driver.findElement(By.id("inputPassword")).sendKeys("a");
-		driver.findElement(By.id("signupSubmit")).click();
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.setFirstName("a");
+		signupPage.setLastName("a");
+		signupPage.setUserName("a");
+		signupPage.setPassword("a");
+		signupPage.signUp();
 	}
 
 	/**
@@ -91,23 +92,25 @@ class CloudStorageApplicationTests {
 	 * Source: https://www.guru99.com/xpath-selenium.html
 	 */
 	@Test
-	public void createNote() {
+	public void testNote() {
 		login(driver);
 
 		WebDriverWait wait = new WebDriverWait(driver, 4);
 
-		// navigate to new note
+		// navigate to notes tab
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-notes-tab"))));
 		WebElement nextNoteTab = driver.findElement(By.id("nav-notes-tab"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", nextNoteTab );
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-note")))).click();
 
 		// save new note
+		String noteTitle = "Note Title";
+		String noteDescription = "This is the description of the note.";
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-note")))).click();
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-title")))).sendKeys("Note Title");
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-description")))).sendKeys("Note Description");
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-note")))).click();
 
-		// get each note = table row
+		// lookup note
 		WebElement noteTable = driver.findElement(By.id("note-table"));
 		List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
 		WebElement lastRow = tableRows.get(tableRows.size() - 1);
