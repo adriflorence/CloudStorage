@@ -20,8 +20,8 @@ public class SignupPage {
     @FindBy(id = "inputPassword")
     private WebElement inputPassword;
 
-    @FindBy(id = "signupSubmit")
-    private WebElement signupSubmitButton;
+    @FindBy(id = "submitSignup")
+    private WebElement submitSignupButton;
 
     private final JavascriptExecutor js;
 
@@ -49,6 +49,6 @@ public class SignupPage {
     }
 
     public void signUp() {
-        js.executeScript("arguments[0].click();", signupSubmitButton);
+        js.executeScript("arguments[0].click();", submitSignupButton);
     }
 }
