@@ -81,11 +81,14 @@ class CloudStorageApplicationTests {
 	/**
 	 * navigate to login page, type in credentials and submit
 	 */
-	public void login(WebDriver driver) {
+	public HomePage login(WebDriver driver) {
 		driver.get("http://localhost:" + this.port + "/login");
-		driver.findElement(By.id("inputUserName")).sendKeys("a");
-		driver.findElement(By.id("inputPassword")).sendKeys("a");
-		driver.findElement(By.id("submitLogin")).click();
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.setUserName("a");
+		loginPage.setPassword("a");
+		loginPage.login();
+
+		return new HomePage(driver);
 	}
 
 	/**
