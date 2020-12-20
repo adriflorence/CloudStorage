@@ -18,11 +18,41 @@ public class HomePage {
         wait = new WebDriverWait(driver, 500);
     }
 
+    // ------ NOTES -------
+
+    @FindBy(id = "nav-notes-tab")
+    private WebElement navNotesTab;
+
     @FindBy(id = "add-new-note")
     private WebElement addNewNote;
 
+    @FindBy(id = "note-title")
+    private WebElement noteTitle;
+
+    @FindBy(id = "note-description")
+    private WebElement noteDescription;
+
+    @FindBy(id = "save-note")
+    private WebElement saveNoteButton;
+
     public void addNewNote() {
         js.executeScript("arguments[0].click();", addNewNote);
+    }
+
+    public void navigateToNotesTab() {
+        js.executeScript("arguments[0].click();", navNotesTab);
+    }
+
+    public void setNoteTitle(String freeTextNoteTitle) {
+        js.executeScript("arguments[0].value='" + freeTextNoteTitle + "';", noteTitle);
+    }
+
+    public void setNoteDescription(String freeTextNoteDescription) {
+        js.executeScript("arguments[0].value='"+ freeTextNoteDescription +"';", noteDescription);
+    }
+
+    public void saveNote() {
+        js.executeScript("arguments[0].click();", saveNoteButton);
     }
 
 }
