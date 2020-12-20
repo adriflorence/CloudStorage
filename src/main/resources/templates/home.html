@@ -94,7 +94,7 @@
                                                 Edit
                                             </button>
                                             <form th:action="@{'/notes/delete/' + ${note.getNoteId()}}" method="POST">
-                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                                <button id="delete-note" class="btn btn-danger" type="submit">Delete</button>
                                             </form>
                                         </td>
                                         <td scope="row" th:text="${note.noteTitle}"></td>
