@@ -3,7 +3,6 @@ package com.udacity.cloudstorage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,7 +18,6 @@ class CloudStorageApplicationTests {
 
 	@LocalServerPort
 	private int port;
-
 	private WebDriver driver;
 
 	@BeforeAll
@@ -58,8 +56,8 @@ class CloudStorageApplicationTests {
 	 */
 	@Test
 	public void newUserSignupAndLogin() {
-		signUp(driver);
-		login(driver);
+		signUp();
+		login();
 
 		// check if Home page available
 		Assertions.assertEquals("Home", driver.getTitle());
@@ -68,7 +66,7 @@ class CloudStorageApplicationTests {
 	/**
 	 * navigate to signup page, type in credentials and submit
 	 */
-	public void signUp(WebDriver driver) {
+	public void signUp() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		SignupPage signupPage = new SignupPage(driver);
 		signupPage.setFirstName("a");
@@ -81,7 +79,7 @@ class CloudStorageApplicationTests {
 	/**
 	 * navigate to login page, type in credentials and submit
 	 */
-	public HomePage login(WebDriver driver) {
+	protected HomePage login() {
 		driver.get("http://localhost:" + this.port + "/login");
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.setUserName("a");
@@ -96,38 +94,31 @@ class CloudStorageApplicationTests {
 	 */
 	@Test
 	public void testNote() {
-		login(driver);
+		HomePage homePage = login();
 
-		WebDriverWait wait = new WebDriverWait(driver, 4);
+		// test create new note
+		homePage.createNote("Note Title", "Note Description", homePage);
 
-		// navigate to notes tab
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-notes-tab"))));
-		WebElement nextNoteTab = driver.findElement(By.id("nav-notes-tab"));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", nextNoteTab );
-
-		// save new note
-		String noteTitle = "Note Title";
-		String noteDescription = "This is the description of the note.";
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-note")))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-title")))).sendKeys("Note Title");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("note-description")))).sendKeys("Note Description");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-note")))).click();
-
-		// lookup note
-		WebElement noteTable = driver.findElement(By.id("note-table"));
-		List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
-		WebElement lastRow = tableRows.get(tableRows.size() - 1);
-		List<WebElement> dataCells = lastRow.findElements(By.tagName("td"));
-		String NoteTitle = dataCells.get(1).getAttribute("innerHTML");
-		String NoteDescription = dataCells.get(2).getAttribute("innerHTML");
+		List<WebElement> note = homePage.getMostRecentNote(driver);
+		String NoteTitle = note.get(1).getAttribute("innerHTML");
+		String NoteDescription = note.get(2).getAttribute("innerHTML");
 
 		Assertions.assertEquals("Note Title", NoteTitle);
 		Assertions.assertEquals("Note Description", NoteDescription);
+
+		// test edit note
+		homePage.editNote("Brand New Note Title", "A completely different description", homePage);
+
+		// test delete note
+		int numberOfNotes = homePage.getNumberOfNotes(driver);
+		homePage.deleteMostRecentNote(driver);
+		int newNumberOfNotes = homePage.getNumberOfNotes(driver); // after deletion
+		Assertions.assertEquals(numberOfNotes - 1, newNumberOfNotes);
 	}
 
 	@Test
 	public void createCredentials() {
-		login(driver);
+		login();
 
 		WebDriverWait wait = new WebDriverWait(driver, 3);
 
@@ -144,7 +135,7 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void deleteCredentials() {
-		login(driver);
+		login();
 
 		WebDriverWait wait = new WebDriverWait(driver, 3);
 
