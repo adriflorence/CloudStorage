@@ -107,7 +107,7 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Note Description", NoteDescription);
 
 		// test edit note
-		homePage.editNote("Brand New Note Title", "A completely different description", homePage);
+		// homePage.editNote("Brand New Note Title", "A completely different description", homePage);
 
 		// test delete note
 		int numberOfNotes = homePage.getNumberOfNotes(driver);

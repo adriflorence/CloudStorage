@@ -39,9 +39,6 @@ public class HomePage {
     @FindBy(id = "save-note")
     private WebElement saveNoteButton;
 
-    @FindBy(id = "delete-note")
-    private WebElement deleteNoteButton;
-
     public void addNewNote() {
         js.executeScript("arguments[0].click();", addNewNote);
     }
@@ -60,10 +57,6 @@ public class HomePage {
 
     public void saveNote() {
         js.executeScript("arguments[0].click();", saveNoteButton);
-    }
-
-    public void deleteNote() {
-        js.executeScript("arguments[0].click();", deleteNoteButton);
     }
 
     public void createNote(String noteTitle, String noteDescription, HomePage homePage) {
@@ -89,6 +82,8 @@ public class HomePage {
         WebElement lastRow = tableRows.get(tableRows.size() - 1);
         List<WebElement> dataCells = lastRow.findElements(By.tagName("td"));
         WebElement actionButtons = dataCells.get(0);
+        WebElement deleteNoteButton = actionButtons.findElement(By.id("delete-note"));
+        js.executeScript("arguments[0].click();", deleteNoteButton);
     }
 
     public int getNumberOfNotes(WebDriver driver) {
