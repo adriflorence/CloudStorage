@@ -25,7 +25,7 @@ public class CredentialService {
     }
 
 
-    public int addCredentials(User user, Credential credential) {
+    public int addCredential(User user, Credential credential) {
         String encryptedPassword = getEncryptedPassword(credential);
 
         return credentialMapper.insert(
@@ -38,6 +38,14 @@ public class CredentialService {
                 user.getUserId()
             )
         );
+    }
+
+    public void deleteCredential(Integer credentialId) {
+        credentialMapper.delete(credentialId);
+    }
+
+    public int updateCredential(User user, Credential credential) {
+        return credentialMapper.update(credential);
     }
 
     private String getEncryptedPassword(Credential credential){
