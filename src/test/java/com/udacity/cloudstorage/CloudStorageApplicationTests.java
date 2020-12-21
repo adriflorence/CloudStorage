@@ -99,7 +99,7 @@ class CloudStorageApplicationTests {
 		// --- test create new note
 		homePage.createNote("Note Title", "Note Description");
 
-		List<WebElement> note = homePage.getMostRecentNote();
+		List<WebElement> note = homePage.getMostRecentRowFromTable("note-table");
 		String NoteTitle = note.get(1).getAttribute("innerHTML");
 		String NoteDescription = note.get(2).getAttribute("innerHTML");
 
@@ -109,7 +109,7 @@ class CloudStorageApplicationTests {
 		// --- test edit note
 		homePage.editNote("Brand New Note Title", "A completely different description");
 
-		List<WebElement> newNote = homePage.getMostRecentNote();
+		List<WebElement> newNote = homePage.getMostRecentRowFromTable("note-table");
 		String NewNoteTitle = newNote.get(1).getAttribute("innerHTML");
 		String NewNoteDescription = newNote.get(2).getAttribute("innerHTML");
 
@@ -117,27 +117,25 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Note Description", NoteDescription);
 
 		// --- test delete note
-		int numberOfNotes = homePage.getNumberOfNotes();
+		int numberOfNotes = homePage.getNumberOfRows("note-table");
 		homePage.deleteMostRecentNote();
-		int newNumberOfNotes = homePage.getNumberOfNotes(); // after deletion
+		int newNumberOfNotes = homePage.getNumberOfRows("note-table"); // after deletion
 		Assertions.assertEquals(numberOfNotes - 1, newNumberOfNotes);
 	}
 
 	@Test
-	public void createCredentials() {
-		login();
-
-		WebDriverWait wait = new WebDriverWait(driver, 3);
+	public void testCredentials() {
+		HomePage homePage = login();
 
 		// navigate to new credential
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-credentials-tab")))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-credential")))).click();
-
-		// save new credential
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-url")))).sendKeys("www.example.com");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-username")))).sendKeys("admin");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-password")))).sendKeys("password1234");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-credential")))).click();
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-credentials-tab")))).click();
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-credential")))).click();
+//
+//		// save new credential
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-url")))).sendKeys("www.example.com");
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-username")))).sendKeys("admin");
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-password")))).sendKeys("password1234");
+//		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-credential")))).click();
 	}
 
 	@Test

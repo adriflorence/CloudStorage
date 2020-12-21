@@ -29,6 +29,12 @@ public class HomePage {
     @FindBy(id = "nav-notes-tab")
     private WebElement navNotesTab;
 
+    @FindBy(id = "nav-credentials-tab")
+    private WebElement navCredentialsTab;
+
+    @FindBy(id = "nav-files-tab")
+    private WebElement navFilesTab;
+
     @FindBy(id = "add-new-note")
     private WebElement addNewNote;
 
@@ -61,6 +67,10 @@ public class HomePage {
         js.executeScript("arguments[0].click();", saveNoteButton);
     }
 
+    public void navigateToCredentialsTab(){
+        js.executeScript("arguments[0].click();", navCredentialsTab);
+    }
+
     public void createNote(String noteTitle, String noteDescription) {
         navigateToNotesTab();
         addNewNote();
@@ -70,9 +80,9 @@ public class HomePage {
         navigateToNotesTab();
     }
 
-    public List<WebElement> getMostRecentNote() {
-        WebElement noteTable = driver.findElement(By.id("note-table"));
-        List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
+    public List<WebElement> getMostRecentRowFromTable(String tableName) {
+        WebElement table = driver.findElement(By.id(tableName));
+        List<WebElement> tableRows = table.findElements(By.tagName("tr"));
         WebElement lastRow = tableRows.get(tableRows.size() - 1);
         List<WebElement> dataCells = lastRow.findElements(By.tagName("td"));
         return dataCells;
@@ -88,19 +98,24 @@ public class HomePage {
         js.executeScript("arguments[0].click();", deleteNoteButton);
     }
 
-    public int getNumberOfNotes() {
-        WebElement noteTable = driver.findElement(By.id("note-table"));
+    public int getNumberOfRows(String tableName) {
+        WebElement noteTable = driver.findElement(By.id(tableName));
         List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
         return tableRows.size();
     }
 
     public void editNote(String noteTitle, String noteDescription) {
-        List<WebElement> dataCells = getMostRecentNote();
+        List<WebElement> dataCells = getMostRecentRowFromTable("note-table");
         WebElement actionButtons = dataCells.get(0);
         WebElement editNoteButton = actionButtons.findElement(By.id("edit-note"));
         js.executeScript("arguments[0].click();", editNoteButton);
         setNoteTitle(noteTitle);
         setNoteDescription(noteDescription);
+    }
+
+    public void createCredentials(String userName, String password) {
+        navigateToCredentialsTab();
+        // TODO
     }
 
 }
