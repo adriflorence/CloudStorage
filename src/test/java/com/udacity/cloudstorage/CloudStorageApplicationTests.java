@@ -96,8 +96,8 @@ class CloudStorageApplicationTests {
 	public void testNote() {
 		HomePage homePage = login();
 
-		// test create new note
-		homePage.createNote("Note Title", "Note Description", homePage);
+		// --- test create new note
+		homePage.createNote("Note Title", "Note Description");
 
 		List<WebElement> note = homePage.getMostRecentNote();
 		String NoteTitle = note.get(1).getAttribute("innerHTML");
@@ -106,10 +106,17 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Note Title", NoteTitle);
 		Assertions.assertEquals("Note Description", NoteDescription);
 
-		// test edit note
+		// --- test edit note
 		homePage.editNote("Brand New Note Title", "A completely different description");
 
-		// test delete note
+		List<WebElement> newNote = homePage.getMostRecentNote();
+		String NewNoteTitle = newNote.get(1).getAttribute("innerHTML");
+		String NewNoteDescription = newNote.get(2).getAttribute("innerHTML");
+
+		Assertions.assertEquals("Note Title", NoteTitle);
+		Assertions.assertEquals("Note Description", NoteDescription);
+
+		// --- test delete note
 		int numberOfNotes = homePage.getNumberOfNotes();
 		homePage.deleteMostRecentNote();
 		int newNumberOfNotes = homePage.getNumberOfNotes(); // after deletion

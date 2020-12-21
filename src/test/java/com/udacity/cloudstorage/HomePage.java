@@ -61,13 +61,13 @@ public class HomePage {
         js.executeScript("arguments[0].click();", saveNoteButton);
     }
 
-    public void createNote(String noteTitle, String noteDescription, HomePage homePage) {
-        homePage.navigateToNotesTab();
-        homePage.addNewNote();
-        homePage.setNoteTitle(noteTitle);
-        homePage.setNoteDescription(noteDescription);
-        homePage.saveNote();
-        homePage.navigateToNotesTab();
+    public void createNote(String noteTitle, String noteDescription) {
+        navigateToNotesTab();
+        addNewNote();
+        setNoteTitle(noteTitle);
+        setNoteDescription(noteDescription);
+        saveNote();
+        navigateToNotesTab();
     }
 
     public List<WebElement> getMostRecentNote() {
@@ -95,7 +95,12 @@ public class HomePage {
     }
 
     public void editNote(String noteTitle, String noteDescription) {
-        // TODO
+        List<WebElement> dataCells = getMostRecentNote();
+        WebElement actionButtons = dataCells.get(0);
+        WebElement editNoteButton = actionButtons.findElement(By.id("edit-note"));
+        js.executeScript("arguments[0].click();", editNoteButton);
+        setNoteTitle(noteTitle);
+        setNoteDescription(noteDescription);
     }
 
 }

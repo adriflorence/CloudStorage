@@ -88,7 +88,7 @@
                                 <tbody id="note-table">
                                     <tr th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success"
+                                            <button type="button" class="btn btn-success" id="edit-note"
                                                     th:attr="data-id=${note.noteId}, data-title=${note.noteTitle}, data-desc=${note.noteDescription}"
                                                     th:onclick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-desc'));">
                                                 Edit
