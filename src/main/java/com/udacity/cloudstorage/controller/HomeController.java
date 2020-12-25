@@ -111,4 +111,12 @@ public class HomeController {
 
         return getHomePage(authentication, model);
     }
+
+    @PostMapping("credentials/delete/{credentialId}")
+    public String deleteCredential(Authentication authentication, @PathVariable Integer credentialId, Model model) {
+        credentialService.deleteCredential(credentialId);
+
+        return getHomePage(authentication, model);
+    }
+
 }
