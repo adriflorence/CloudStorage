@@ -4,10 +4,7 @@ import com.udacity.cloudstorage.model.Credential;
 import com.udacity.cloudstorage.model.File;
 import com.udacity.cloudstorage.model.Note;
 import com.udacity.cloudstorage.model.User;
-import com.udacity.cloudstorage.service.CredentialService;
-import com.udacity.cloudstorage.service.FileService;
-import com.udacity.cloudstorage.service.NoteService;
-import com.udacity.cloudstorage.service.UserService;
+import com.udacity.cloudstorage.service.*;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -28,12 +25,14 @@ public class HomeController {
     private NoteService noteService;
     private FileService fileService;
     private CredentialService credentialService;
+    private final EncryptionService encryptionService;
 
-    public HomeController(UserService userService, NoteService noteService, FileService fileService, CredentialService credentialService) {
+    public HomeController(UserService userService, NoteService noteService, FileService fileService, CredentialService credentialService, EncryptionService encryptionService) {
         this.userService = userService;
         this.noteService = noteService;
         this.fileService = fileService;
         this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping("/home")
@@ -42,10 +41,11 @@ public class HomeController {
         User user = this.userService.getUser(username);
 
         model.addAttribute("newNote", new Note());
-        model.addAttribute("newCredentials", new Credential());
+        model.addAttribute("newCredential", new Credential());
         model.addAttribute("notes", this.noteService.getNotesByUserId(user.getUserId()));
         model.addAttribute("files", this.fileService.getFilesByUserId(user.getUserId()));
         model.addAttribute("credentials", this.credentialService.getCredentialsByUserId(user.getUserId()));
+        model.addAttribute("encryptionService", encryptionService);
         return "home";
     }
 
@@ -104,7 +104,7 @@ public class HomeController {
     }
 
     @PostMapping("/credentials")
-    public String saveCredentials(Authentication authentication, @ModelAttribute("newCredentials") Credential credential, Model model) {
+    public String saveCredential(Authentication authentication, @ModelAttribute("newCredential") Credential credential, Model model) {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
         this.credentialService.addCredential(user, credential);

@@ -89,8 +89,10 @@
                                     <tr th:each="note : ${notes}">
                                         <td>
                                             <button type="button" class="btn btn-success" id="edit-note"
-                                                    th:attr="data-id=${note.noteId}, data-title=${note.noteTitle}, data-desc=${note.noteDescription}"
-                                                    th:onclick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-desc'));">
+                                                    th:data-id="${note.getNoteId()}"
+                                                    th:data-title="${note.getNoteTitle()}"
+                                                    th:data-description="${note.getNoteDescription()}"
+                                                    th:onclick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-description'))">
                                                 Edit
                                             </button>
                                             <form th:action="@{'/notes/delete/' + ${note.getNoteId()}}" method="POST">
@@ -163,7 +165,13 @@
                                 <tbody>
                                 <tr th:each="credential : ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <button type="button" class="btn btn-success"
+                                                th:data-id="${credential.getCredentialid()}"
+                                                th:data-url="${credential.getUrl()}"
+                                                th:data-username="${credential.getUserName()}"
+                                                th:data-decryptedPassword = "${encryptionService.decryptValue(credential.password, credential.key)}"
+                                                th:onclick="showCredentialModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'), this.getAttribute('data-decryptedPassword'))">
+                                            Edit</button>
                                         <form th:action="@{'/credentials/delete/'}" method="post">
                                             <a class="btn btn-danger">Delete</a>
                                         </form>
@@ -186,7 +194,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form th:object="${newCredentials}" th:action="@{/credentials}" action="#" method="POST">
+                                        <form th:object="${newCredential}" th:action="@{/credentials}" action="#" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
