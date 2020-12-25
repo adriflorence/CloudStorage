@@ -107,7 +107,12 @@ public class HomeController {
     public String saveCredential(Authentication authentication, @ModelAttribute("newCredential") Credential credential, Model model) {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
-        this.credentialService.addCredential(user, credential);
+        if(credential.getCredentialId() == null) {
+            this.credentialService.addCredential(user, credential);
+        } else {
+            this.credentialService.updateCredential(user, credential);
+        }
+
 
         return getHomePage(authentication, model);
     }
