@@ -33,7 +33,7 @@ public class CredentialService {
             new Credential(
                 null,
                 credential.getUrl(),
-                user.getUserName(),
+                credential.getUserName(),
                 encodedKey,
                 encryptedPassword,
                 user.getUserId()
