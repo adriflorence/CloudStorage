@@ -50,13 +50,13 @@ public class HomePage {
     private WebElement addNewCredential;
 
     @FindBy(id = "credential-url")
-    private WebElement url;
+    private WebElement credentialUrl;
 
     @FindBy(id = "credential-username")
-    private WebElement userName;
+    private WebElement credentialUserName;
 
     @FindBy(id = "credential-password")
-    private WebElement password;
+    private WebElement credentialPassword;
 
     @FindBy(id = "save-credential")
     private WebElement saveCredentialButton;
@@ -138,22 +138,22 @@ public class HomePage {
     }
 
     public void setCredentialUrl(String url) {
-        js.executeScript("arguments[0].value='" + url + "';", url);
+        js.executeScript("arguments[0].value='" + url + "';", credentialUrl);
     }
 
     public void setCredentialUserName(String userName) {
-        js.executeScript("arguments[0].value='"+ userName +"';", userName);
+        js.executeScript("arguments[0].value='"+ userName +"';", credentialUserName);
     }
 
     public void setCredentialPassword(String password) {
-        js.executeScript("arguments[0].value='"+ password +"';", password);
+        js.executeScript("arguments[0].value='"+ password +"';", credentialPassword);
     }
 
     public void saveCredential() {
         js.executeScript("arguments[0].click();", saveCredentialButton);
     }
 
-    public void createCredentials(String url, String userName, String password) {
+    public void createCredential(String url, String userName, String password) {
         navigateToCredentialsTab();
         addNewCredential();
         setCredentialUrl(url);
