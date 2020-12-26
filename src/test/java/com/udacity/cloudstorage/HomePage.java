@@ -106,10 +106,7 @@ public class HomePage {
     }
 
     public void deleteMostRecentNote() {
-        WebElement noteTable = driver.findElement(By.id("note-table"));
-        List<WebElement> tableRows = noteTable.findElements(By.tagName("tr"));
-        WebElement lastRow = tableRows.get(tableRows.size() - 1);
-        List<WebElement> dataCells = lastRow.findElements(By.tagName("td"));
+        List<WebElement> dataCells = getMostRecentRowFromTable("note-table");
         WebElement actionButtons = dataCells.get(0);
         WebElement deleteNoteButton = actionButtons.findElement(By.id("delete-note"));
         js.executeScript("arguments[0].click();", deleteNoteButton);
@@ -121,7 +118,7 @@ public class HomePage {
         return tableRows.size();
     }
 
-    public void editNote(String noteTitle, String noteDescription) {
+    public void editMostRecentNote(String noteTitle, String noteDescription) {
         List<WebElement> dataCells = getMostRecentRowFromTable("note-table");
         WebElement actionButtons = dataCells.get(0);
         WebElement editNoteButton = actionButtons.findElement(By.id("edit-note"));
