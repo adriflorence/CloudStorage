@@ -163,4 +163,15 @@ public class HomePage {
         navigateToCredentialsTab();
     }
 
+    public void editMostRecentCredential(String url, String userName, String password) {
+        List<WebElement> dataCells = getMostRecentRowFromTable("credential-table");
+        WebElement actionButtons = dataCells.get(0);
+        WebElement editCredentialButton = actionButtons.findElement(By.id("edit-credential"));
+        js.executeScript("arguments[0].click();", editCredentialButton);
+        setCredentialUrl(url);
+        setCredentialUserName(userName);
+        setCredentialPassword(password);
+        saveCredential();
+    }
+
 }

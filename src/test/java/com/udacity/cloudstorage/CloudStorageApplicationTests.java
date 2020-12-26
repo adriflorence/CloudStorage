@@ -114,8 +114,8 @@ class CloudStorageApplicationTests {
 		String NewNoteTitle = newNote.get(1).getAttribute("innerHTML");
 		String NewNoteDescription = newNote.get(2).getAttribute("innerHTML");
 
-		Assertions.assertEquals("Note Title", NoteTitle);
-		Assertions.assertEquals("Note Description", NoteDescription);
+		Assertions.assertEquals("Note Title", NewNoteTitle);
+		Assertions.assertEquals("Note Description", NewNoteDescription);
 
 		// --- test delete note
 		int numberOfNotes = homePage.getNumberOfRows("note-table");
@@ -131,14 +131,23 @@ class CloudStorageApplicationTests {
 		// --- test create new credential
 		homePage.createCredential("url", "username", "password");
 
-		List<WebElement> credentials = homePage.getMostRecentRowFromTable("credentials-table");
+		List<WebElement> credentials = homePage.getMostRecentRowFromTable("credential-table");
 		String url = credentials.get(1).getAttribute("innerHTML");
 		String userName = credentials.get(2).getAttribute("innerHTML");
 		//	String password = credentials.get(3).getAttribute("innerHTML");
 
-		EncryptionService encryptionService = new EncryptionService();
 		Assertions.assertEquals("url", url);
 		Assertions.assertEquals("username", userName);
+
+		// --- test edit credential
+		homePage.editMostRecentCredential("completely_new_url.co.uk", "other_username", "abc123");
+
+		List<WebElement> newCredential = homePage.getMostRecentRowFromTable("credential-table");
+		String newCredentialUrl = newCredential.get(1).getAttribute("innerHTML");
+		String newCredentialUserName = newCredential.get(2).getAttribute("innerHTML");
+
+		Assertions.assertEquals("completely_new_url.co.uk", newCredentialUrl);
+		Assertions.assertEquals("other_username", newCredentialUserName);
 	}
 
 	@Test

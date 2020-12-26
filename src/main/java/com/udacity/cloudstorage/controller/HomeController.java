@@ -105,12 +105,12 @@ public class HomeController {
 
     @PostMapping("/credentials")
     public String saveCredential(Authentication authentication, @ModelAttribute("newCredential") Credential credential, Model model) {
-        String username = (String) authentication.getPrincipal();
-        User user = this.userService.getUser(username);
         if(credential.getCredentialId() == null) {
+            String username = (String) authentication.getPrincipal();
+            User user = this.userService.getUser(username);
             this.credentialService.addCredential(user, credential);
         } else {
-            this.credentialService.updateCredential(user, credential);
+            this.credentialService.updateCredential(credential);
         }
 
 
