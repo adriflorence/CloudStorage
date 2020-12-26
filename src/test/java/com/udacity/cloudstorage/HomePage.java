@@ -29,12 +29,6 @@ public class HomePage {
     @FindBy(id = "nav-notes-tab")
     private WebElement navNotesTab;
 
-    @FindBy(id = "nav-credentials-tab")
-    private WebElement navCredentialsTab;
-
-    @FindBy(id = "nav-files-tab")
-    private WebElement navFilesTab;
-
     @FindBy(id = "add-new-note")
     private WebElement addNewNote;
 
@@ -47,12 +41,39 @@ public class HomePage {
     @FindBy(id = "save-note")
     private WebElement saveNoteButton;
 
-    public void addNewNote() {
-        js.executeScript("arguments[0].click();", addNewNote);
-    }
+    // ------ CREDENTIALS -------
+
+    @FindBy(id = "nav-credentials-tab")
+    private WebElement navCredentialsTab;
+
+    @FindBy(id = "add-new-credential")
+    private WebElement addNewCredential;
+
+    @FindBy(id = "credential-url")
+    private WebElement url;
+
+    @FindBy(id = "credential-username")
+    private WebElement userName;
+
+    @FindBy(id = "credential-password")
+    private WebElement password;
+
+    @FindBy(id = "save-credential")
+    private WebElement saveCredentialButton;
+
+    // ------ FILES -------
+
+    @FindBy(id = "nav-files-tab")
+    private WebElement navFilesTab;
+
+    // ------ NOTE METHODS -------
 
     public void navigateToNotesTab() {
         js.executeScript("arguments[0].click();", navNotesTab);
+    }
+
+    public void addNewNote() {
+        js.executeScript("arguments[0].click();", addNewNote);
     }
 
     public void setNoteTitle(String freeTextNoteTitle) {
@@ -65,10 +86,6 @@ public class HomePage {
 
     public void saveNote() {
         js.executeScript("arguments[0].click();", saveNoteButton);
-    }
-
-    public void navigateToCredentialsTab(){
-        js.executeScript("arguments[0].click();", navCredentialsTab);
     }
 
     public void createNote(String noteTitle, String noteDescription) {
@@ -113,9 +130,40 @@ public class HomePage {
         setNoteDescription(noteDescription);
     }
 
-    public void createCredentials(String userName, String password) {
+    // ------ CREDENTIAL METHODS -------
+
+    public void navigateToCredentialsTab(){
+        js.executeScript("arguments[0].click();", navCredentialsTab);
+    }
+
+    public void addNewCredential() {
+        js.executeScript("arguments[0].click();", addNewCredential);
+    }
+
+    public void setCredentialUrl(String url) {
+        js.executeScript("arguments[0].value='" + url + "';", url);
+    }
+
+    public void setCredentialUserName(String userName) {
+        js.executeScript("arguments[0].value='"+ userName +"';", userName);
+    }
+
+    public void setCredentialPassword(String password) {
+        js.executeScript("arguments[0].value='"+ password +"';", password);
+    }
+
+    public void saveCredential() {
+        js.executeScript("arguments[0].click();", saveCredentialButton);
+    }
+
+    public void createCredentials(String url, String userName, String password) {
         navigateToCredentialsTab();
-        // TODO
+        addNewCredential();
+        setCredentialUrl(url);
+        setCredentialUserName(userName);
+        setCredentialPassword(password);
+        saveCredential();
+        navigateToCredentialsTab();
     }
 
 }
