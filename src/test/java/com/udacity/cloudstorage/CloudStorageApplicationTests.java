@@ -94,7 +94,7 @@ class CloudStorageApplicationTests {
 	 * Source: https://www.guru99.com/xpath-selenium.html
 	 */
 	@Test
-	public void testNote() {
+	public void testNotes() {
 		HomePage homePage = login();
 
 		// --- test create new note
@@ -148,10 +148,16 @@ class CloudStorageApplicationTests {
 
 		Assertions.assertEquals("completely_new_url.co.uk", newCredentialUrl);
 		Assertions.assertEquals("other_username", newCredentialUserName);
+
+		// --- test delete credential
+		int numberOfCredentials = homePage.getNumberOfRows("credential-table");
+		homePage.deleteMostRecentCredential();
+		int newNumberOfCredentials = homePage.getNumberOfRows("credential-table"); // after deletion
+		Assertions.assertEquals(numberOfCredentials - 1, newNumberOfCredentials);
 	}
 
 	@Test
-	public void deleteCredentials() {
+	public void testFiles() {
 		login();
 
 		WebDriverWait wait = new WebDriverWait(driver, 3);

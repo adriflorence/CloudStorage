@@ -174,4 +174,11 @@ public class HomePage {
         saveCredential();
     }
 
+    public void deleteMostRecentCredential() {
+        List<WebElement> dataCells = getMostRecentRowFromTable("credential-table");
+        WebElement actionButtons = dataCells.get(0);
+        WebElement deleteCredentialButton = actionButtons.findElement(By.id("delete-credential"));
+        js.executeScript("arguments[0].click();", deleteCredentialButton);
+    }
+
 }
