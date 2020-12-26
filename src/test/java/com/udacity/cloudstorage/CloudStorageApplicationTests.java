@@ -1,14 +1,10 @@
 package com.udacity.cloudstorage;
 
-import com.udacity.cloudstorage.service.EncryptionService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -154,24 +150,5 @@ class CloudStorageApplicationTests {
 		homePage.deleteMostRecentCredential();
 		int newNumberOfCredentials = homePage.getNumberOfRows("credential-table"); // after deletion
 		Assertions.assertEquals(numberOfCredentials - 1, newNumberOfCredentials);
-	}
-
-	@Test
-	public void testFiles() {
-		login();
-
-		WebDriverWait wait = new WebDriverWait(driver, 3);
-
-		// navigate to new credential
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("nav-credentials-tab")))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("add-new-credential")))).click();
-
-		// save new credential
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-url")))).sendKeys("www.example.com");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-username")))).sendKeys("admin");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("credential-password")))).sendKeys("password1234");
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("save-credential")))).click();
-
-
 	}
 }

@@ -61,11 +61,6 @@ public class HomePage {
     @FindBy(id = "save-credential")
     private WebElement saveCredentialButton;
 
-    // ------ FILES -------
-
-    @FindBy(id = "nav-files-tab")
-    private WebElement navFilesTab;
-
     // ------ NOTE METHODS -------
 
     public void navigateToNotesTab() {
