@@ -26,6 +26,18 @@ public class FileService {
         return fileMapper.getFileById(fileId);
     }
 
+    public boolean fileNameAlreadyExists(Integer userId, String fileName) {
+        boolean duplicateFileName = false;
+        String[] fileNames = fileMapper.getFileNamesByUserId(userId);
+        for(String fn : fileNames) {
+            if (fileName.equals(fn)) {
+                duplicateFileName = true;
+                break;
+            }
+        }
+        return duplicateFileName;
+    }
+
     public int addFile(User user, MultipartFile file) {
 
         try {

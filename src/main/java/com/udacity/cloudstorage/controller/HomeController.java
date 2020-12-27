@@ -72,10 +72,14 @@ public class HomeController {
     }
 
     @PostMapping("/files")
-    public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model){
+    public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model) throws IOException {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
-        this.fileService.addFile(user, multipartFile);
+        if(this.fileService.fileNameAlreadyExists(user.getUserId(), multipartFile.getOriginalFilename())){
+            model.addAttribute("fileError", "A file with this name is already stored in the database.");
+        } else {
+            this.fileService.addFile(user, multipartFile);
+        }
 
         return getHomePage(authentication, model);
     }
