@@ -76,7 +76,7 @@ public class HomeController {
     }
 
     @PostMapping("/files")
-    public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model) throws IOException {
+    public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model) {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
         if(multipartFile != null && !multipartFile.isEmpty()) {
@@ -84,9 +84,15 @@ public class HomeController {
                 model.addAttribute("result", "error");
                 model.addAttribute("message", "A file with this name is already stored in the database.");
             } else {
-                model.addAttribute("result", "success");
-                model.addAttribute("message", "The file was successfully uploaded.");
-                this.fileService.addFile(user, multipartFile);
+                if(multipartFile.getSize() > 1048576) {
+                    model.addAttribute("result", "error");
+                    model.addAttribute("message", "The maximum file size limit for uploads is 1MB. \n" +
+                            "Make sure the file you are uploading does not exceed this.");
+                } else {
+                    model.addAttribute("result", "success");
+                    model.addAttribute("message", "The file was successfully uploaded.");
+                    this.fileService.addFile(user, multipartFile);
+                }
             }
         } else {
             model.addAttribute("result", "error");
