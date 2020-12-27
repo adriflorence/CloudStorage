@@ -79,13 +79,18 @@ public class HomeController {
     public String saveFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile, Model model) throws IOException {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
-        if(this.fileService.fileNameAlreadyExists(user.getUserId(), multipartFile.getOriginalFilename())){
-            model.addAttribute("result", "error");
-            model.addAttribute("message", "A file with this name is already stored in the database.");
+        if(multipartFile != null && !multipartFile.isEmpty()) {
+            if (this.fileService.fileNameAlreadyExists(user.getUserId(), multipartFile.getOriginalFilename())) {
+                model.addAttribute("result", "error");
+                model.addAttribute("message", "A file with this name is already stored in the database.");
+            } else {
+                model.addAttribute("result", "success");
+                model.addAttribute("message", "The file was successfully uploaded.");
+                this.fileService.addFile(user, multipartFile);
+            }
         } else {
-            model.addAttribute("result", "success");
-            model.addAttribute("message", "The file was successfully uploaded.");
-            this.fileService.addFile(user, multipartFile);
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "Please select a file before clicking upload.");
         }
 
         return "result";
@@ -139,7 +144,9 @@ public class HomeController {
     public String deleteCredential(Authentication authentication, @PathVariable Integer credentialId, Model model) {
         credentialService.deleteCredential(credentialId);
 
-        return getHomePage(authentication, model);
+        model.addAttribute("result", "success");
+        model.addAttribute("message", "The credential was successfully deleted.");
+        return "result";
     }
 
 }
