@@ -61,14 +61,18 @@ public class HomeController {
         note.setNoteDescription("");
         note.setNoteTitle("");
 
-        return getHomePage(authentication, model);
+        model.addAttribute("result", "success");
+        model.addAttribute("message", "Note was successfully created.");
+        return "result";
     }
 
     @PostMapping("/notes/delete/{noteId}")
     public String deleteNote(Authentication authentication, @PathVariable Integer noteId, Model model){
         noteService.deleteNote(noteId);
 
-        return getHomePage(authentication, model);
+        model.addAttribute("result", "success");
+        model.addAttribute("message", "Note was successfully deleted.");
+        return "result";
     }
 
     @PostMapping("/files")
@@ -76,19 +80,24 @@ public class HomeController {
         String username = (String) authentication.getPrincipal();
         User user = this.userService.getUser(username);
         if(this.fileService.fileNameAlreadyExists(user.getUserId(), multipartFile.getOriginalFilename())){
-            model.addAttribute("fileError", "A file with this name is already stored in the database.");
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "A file with this name is already stored in the database.");
         } else {
+            model.addAttribute("result", "success");
+            model.addAttribute("message", "The file was successfully uploaded.");
             this.fileService.addFile(user, multipartFile);
         }
 
-        return getHomePage(authentication, model);
+        return "result";
     }
 
     @PostMapping("/files/delete/{fileId}")
     public String deleteFile(Authentication authentication, @PathVariable Integer fileId, Model model){
         fileService.deleteFile(fileId);
 
-        return getHomePage(authentication, model);
+        model.addAttribute("result", "success");
+        model.addAttribute("message", "The file was successfully deleted.");
+        return "result";
     }
 
     @GetMapping("/download/{fileId}")
@@ -113,12 +122,17 @@ public class HomeController {
             String username = (String) authentication.getPrincipal();
             User user = this.userService.getUser(username);
             this.credentialService.addCredential(user, credential);
+
+            model.addAttribute("result", "success");
+            model.addAttribute("message", "The credential was successfully created.");
         } else {
             this.credentialService.updateCredential(credential);
+
+            model.addAttribute("result", "success");
+            model.addAttribute("message", "The credential was successfully updated.");
         }
 
-
-        return getHomePage(authentication, model);
+        return "result";
     }
 
     @PostMapping("credentials/delete/{credentialId}")
