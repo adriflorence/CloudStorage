@@ -89,6 +89,8 @@ public class HomePage {
         setNoteTitle(noteTitle);
         setNoteDescription(noteDescription);
         saveNote();
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickContinue();
         navigateToNotesTab();
     }
 
@@ -105,6 +107,8 @@ public class HomePage {
         WebElement actionButtons = dataCells.get(0);
         WebElement deleteNoteButton = actionButtons.findElement(By.id("delete-note"));
         js.executeScript("arguments[0].click();", deleteNoteButton);
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickContinue();
     }
 
     public int getNumberOfRows(String tableName) {
@@ -155,6 +159,8 @@ public class HomePage {
         setCredentialUserName(userName);
         setCredentialPassword(password);
         saveCredential();
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickContinue();
         navigateToCredentialsTab();
     }
 
@@ -167,6 +173,9 @@ public class HomePage {
         setCredentialUserName(userName);
         setCredentialPassword(password);
         saveCredential();
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickContinue();
+        navigateToCredentialsTab();
     }
 
     public void deleteMostRecentCredential() {
@@ -174,6 +183,8 @@ public class HomePage {
         WebElement actionButtons = dataCells.get(0);
         WebElement deleteCredentialButton = actionButtons.findElement(By.id("delete-credential"));
         js.executeScript("arguments[0].click();", deleteCredentialButton);
+        ResultPage resultPage = new ResultPage(driver);
+        resultPage.clickContinue();
     }
 
 }
