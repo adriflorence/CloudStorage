@@ -8,10 +8,10 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.udacity.jwdnd.course1</groupId>
+    <groupId>com.adriforczek.cloudstorage</groupId>
     <artifactId>cloudstorage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cloudstorage</name>
+    <name>CloudStorage</name>
     <description>Final Project for Udacity's Spring Boot Basics course.</description>
 
     <properties>
