@@ -35,15 +35,17 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	public void getLoginPage() {
-		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
-	}
-
-	@Test
+	@Order(1)
 	public void getSignupPage() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
+	}
+
+	@Test
+	@Order(2)
+	public void getLoginPage() {
+		driver.get("http://localhost:" + this.port + "/login");
+		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
 	/**
@@ -52,6 +54,7 @@ class CloudStorageApplicationTests {
 	 * 	logs out, and verifies that the home page is no longer accessible.
 	 */
 	@Test
+	@Order(3)
 	public void newUserSignupAndLogin() {
 		signUp();
 		login();
@@ -90,6 +93,7 @@ class CloudStorageApplicationTests {
 	 * Source: https://www.guru99.com/xpath-selenium.html
 	 */
 	@Test
+	@Order(4)
 	public void testNotes() {
 		HomePage homePage = login();
 
@@ -121,6 +125,7 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
+	@Order(5)
 	public void testCredentials() {
 		HomePage homePage = login();
 
